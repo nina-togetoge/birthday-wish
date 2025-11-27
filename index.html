@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐呀！🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            overflow: hidden; /* 隐藏滚动条 */
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        /* 祝福文字容器 */
+        .birthday-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10; /* 文字在最上层 */
+        }
+        /* 主标题动画 */
+        .title {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.3);
+        }
+        /* 副标题 */
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            animation: fadeIn 3s ease-in-out;
+        }
+        /* 蛋糕图片 */
+        .cake {
+            width: 180px;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        /* 飘落元素（蛋糕、爱心、星星） */
+        .falling-element {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none; /* 不影响点击 */
+            animation: fall linear infinite;
+        }
+        /* 动画定义 */
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* 响应式调整（手机适配） */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            .cake {
+                width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 祝福内容 -->
+    <div class="birthday-container">
+        <h1 class="title">生日快乐！🎂</h1>
+        <p class="subtitle">愿所有美好都围绕着你～</p>
+        <img src="https://img.icons8.com/fluency/96/000000/birthday-cake.png" alt="生日蛋糕" class="cake">
+    </div>
+
+    <script>
+        // 动态生成飘落元素（蛋糕、爱心、星星）
+        const elements = [
+            'https://img.icons8.com/fluency/32/000000/birthday-cake.png', // 蛋糕图标
+            'https://img.icons8.com/fluency/32/ff0000/heart.png', // 爱心图标
+            'https://img.icons8.com/fluency/32/ffff00/star.png'  // 星星图标
+        ];
+
+        // 创建飘落元素的函数
+        function createFallingElement() {
+            const element = document.createElement('div');
+            element.className = 'falling-element';
+            
+            // 随机选择元素类型
+            const randomElement = elements[Math.floor(Math.random() * elements.length)];
+            element.style.backgroundImage = `url(${randomElement})`;
+            
+            // 随机位置（左右）
+            const left = Math.random() * 100;
+            element.style.left = `${left}%`;
+            
+            // 随机大小（16-32px）
+            const size = 16 + Math.random() * 16;
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            
+            // 随机下落时间（3-8秒）
+            const duration = 3 + Math.random() * 5;
+            element.style.animationDuration = `${duration}s`;
+            
+            // 随机透明度（0.5-1）
+            element.style.opacity = 0.5 + Math.random() * 0.5;
+            
+            // 添加到页面
+            document.body.appendChild(element);
+            
+            // 元素落地后移除（优化性能）
+            setTimeout(() => {
+                element.remove();
+            }, duration * 1000);
+        }
+
+        // 每隔300毫秒创建一个飘落元素
+        setInterval(createFallingElement, 300);
+    </script>
+</body>
+</html>
